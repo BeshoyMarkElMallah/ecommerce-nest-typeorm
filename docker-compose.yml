@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  postgres_database:
+    container_name: ecommerce-nest
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: bazarapi
+      POSTGRES_PASSWORD: postgres
+
+
+volumes:
+  postgres_data:
