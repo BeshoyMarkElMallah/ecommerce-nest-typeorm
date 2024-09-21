@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UserSignUpDto } from './dto/user-signup.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserSignInDto } from './dto/user-signin.dto';
+import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -40,8 +41,8 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string):Promise<UserEntity> {
+  @Get('single/:id')
+  async findOneUser(@Param('id') id: string):Promise<UserEntity> {
     return await this.usersService.findOne(+id);
   }
 
@@ -53,5 +54,10 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @Get('me')
+  getProfile(@CurrentUser() currentUser:UserEntity){
+    return currentUser;
   }
 }
