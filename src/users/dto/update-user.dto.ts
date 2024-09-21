@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
+// import { PartialType } from '@nestjs/mapped-types';
+// import { CreateUserDto } from './create-user.dto';
+// import { UserSignInDto } from './user-signin.dto';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+import { Roles } from "src/utility/common/user-roles.enum";
+
+export class UpdateUserDto  {
+    roles: Roles[];
+}
