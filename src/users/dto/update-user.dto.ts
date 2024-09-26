@@ -5,5 +5,6 @@
 import { Roles } from "src/utility/common/user-roles.enum";
 
 export class UpdateUserDto  {
+    id: number;
     roles: Roles[];
 }

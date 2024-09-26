@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -34,28 +34,23 @@ export class UsersController {
   }
 
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    // return this.usersService.create(createUserDto);
-    return 'Hi';
-  }
 
   @AuthorizeRoles(Roles.ADMIN)
-  @UseGuards(AuthenticationGuard,AuthorizeGuard)
+  @UseGuards(AuthenticationGuard, AuthorizeGuard([Roles.ADMIN]))
   @Get('all')
-  async findAll() {
+  async findAll(): Promise<UserEntity[]> {
     return await this.usersService.findAll();
   }
 
   @Get('single/:id')
-  async findOneUser(@Param('id') id: string):Promise<UserEntity> {
+  async findOneUser(@Param('id') id: string): Promise<UserEntity> {
     return await this.usersService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    console.log(updateUserDto);
-    
+    console.log("updateDto", updateUserDto);
+
     return await this.usersService.update(+id, updateUserDto);
   }
 
@@ -66,7 +61,7 @@ export class UsersController {
 
   @UseGuards(AuthenticationGuard)
   @Get('me')
-  getProfile(@CurrentUser() currentUser:UserEntity){
+  getProfile(@CurrentUser() currentUser: UserEntity) {
     return currentUser;
   }
 }
