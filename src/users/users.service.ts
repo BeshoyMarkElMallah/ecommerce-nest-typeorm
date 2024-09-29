@@ -69,8 +69,9 @@ export class UsersService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const user = await this.userRepository.createQueryBuilder().delete().from(UserEntity).where("id = :id",{id:id}).execute()
+    return user;
   }
 
   async findUserByEmail(email: string): Promise<UserEntity> {
